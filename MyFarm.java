@@ -61,7 +61,7 @@ public class MyFarm {
         System.out.println("(5) Tulips");
         System.out.println("(6) Sunflower");
         System.out.println("(7) Mango");
-        System.out.println("(7) Apple");
+        System.out.println("(8) Apple");
         System.out.println("(0) Go Back");
     }
 
@@ -81,7 +81,13 @@ public class MyFarm {
         }
     }
 
-    public static void performMainMenu(){
+    public static void checkWithered(){
+        for(Tile currTile : tile){
+            currTile.WitherChecker();
+        }
+    }
+
+    public static void performGame(){
         //var tileSelect = userInput.nextInt();
         var menuSelect = 0;
         do{
@@ -92,6 +98,7 @@ public class MyFarm {
                 case 1: // Farm
                     var tileSelect = 0;
                     do{
+                        checkWithered();//check if withered
                         displayTileMenu();
                         System.out.print("Choose tile/action: ");
                         tileSelect = userInput.nextInt();
@@ -110,11 +117,12 @@ public class MyFarm {
                                     case 1: // plant seed
                                         var seedAction = 0;
                                         do {
+                                            checkWithered();
                                             displaySeedMenu();
                                             System.out.println("Choose seed: ");
                                             // print seed list
                                             seedAction = userInput.nextInt();
-                                            if(seedAction > 0 && seedAction < seedList.size()){
+                                            if(seedAction > 0 && seedAction <= seedList.size()){
                                                 tile.get(tileSelect).PlantSeed(f1, seedList.get(seedAction-1));
                                             }
                                         }while(seedAction != 0);
@@ -134,6 +142,9 @@ public class MyFarm {
                                         tile.get(tileSelect).Shovel(f1);
                                         break;
                                     case 7:
+                                        //Harvest
+                                        break;
+                                    case 8:
                                         System.out.println("Proceeding to next day...");
                                         nextDay();
                                         break;
@@ -194,12 +205,7 @@ public class MyFarm {
         // Start game
         while(Power){ // gagawin palang yung end conditions
 
-            /*
-            Display Main Menu method
-             */
-            //DisplayMainMenu(); // displays Main Menu
-            //var command1 = userInput.nextInt();
-            performMainMenu();
+            performGame();
 
             //day++;
         }

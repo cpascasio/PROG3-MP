@@ -54,6 +54,9 @@ public class Crop {
 
 
 
+
+
+
     //Macky
     @Override
     public String toString(){ // prints the plant's days left before harvest, current water
@@ -93,6 +96,14 @@ public class Crop {
 
     public void setWater(int water) {
         this.water = water;
+    }
+
+    public int getWaterNeeded() {
+        return waterNeeded;
+    }
+
+    public int getFertilizerNeeded() {
+        return fertilizerNeeded;
     }
 
     public int getFertilizer() {

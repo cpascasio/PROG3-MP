@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Tile {
     private boolean isPlowed;
 
@@ -108,6 +110,13 @@ public class Tile {
         }
     }
 
+    public void WitherChecker(){
+            if(this.seed.getDays() > this.seed.getDaysNeeded()){
+               this.seed.setWithered(true);
+            }else if(this.seed.getDaysNeeded() == this.seed.getDays() && this.seed.getWater() < this.seed.getWaterNeeded() || this.seed.getFertilizer() < this.seed.getFertilizerNeeded()){
+                this.seed.setWithered(true);
+            }
+    }
 
     public boolean isRock() {
         return rock;
