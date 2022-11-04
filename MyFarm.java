@@ -4,15 +4,12 @@ import java.util.Scanner;
 
 public class MyFarm {
 
-    //private int totalWatered = 0;
-
-    //private int totalFertilized = 0;
-
     public static Farmer f1 = new Farmer();
 
     public static final Scanner userInput = new Scanner(System.in);
     public static boolean Power = true;
-    public static int day = 0;
+
+    //public static int day = 0;
     public static ArrayList<Tile> tile = new ArrayList<Tile>(Arrays.asList(new Tile()));
 
     public static final ArrayList<Crop> seedList = new ArrayList<Crop>(Arrays.asList(new Crop("Turnip", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5),
@@ -61,7 +58,7 @@ public class MyFarm {
         System.out.println("(5) Tulips");
         System.out.println("(6) Sunflower");
         System.out.println("(7) Mango");
-        System.out.println("(7) Apple");
+        System.out.println("(8) Apple");
         System.out.println("(0) Go Back");
     }
 
@@ -81,8 +78,52 @@ public class MyFarm {
         }
     }
 
-    public static void performMainMenu(){
+    public static void checkWithered(){
+        for(Tile currTile : tile){
+            currTile.WitherChecker();
+        }
+    }
+
+    public static void updateSeeds(){
+        int seedIndex;
+        for(Tile t : tile){
+            if(t.getSeed() != null){
+                seedIndex = findSeedIndex(t.getSeed().getName());
+                if(seedIndex != -1){
+                    t.SeedUpdate(seedList.get(seedIndex), f1);
+                }
+            }
+        }
+    }
+
+    public static int findSeedIndex(String name){
+        int i = 0;
+        for(Crop seed : seedList){
+            if(seed.getName().equals(name)){
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    public static boolean endConditions(){
+        int plantCounter = 0;
+        for(Tile t : tile){
+            if(t.getSeed().isWithered() == false){
+                plantCounter++;
+            }
+        }
+        if(plantCounter == 0 && f1.getObjectcoins() < 5-f1.getSeedDiscount()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static void performGame(){
         //var tileSelect = userInput.nextInt();
+
         var menuSelect = 0;
         do{
             displayMainMenu();
@@ -92,6 +133,7 @@ public class MyFarm {
                 case 1: // Farm
                     var tileSelect = 0;
                     do{
+                        checkWithered();//check if withered
                         displayTileMenu();
                         System.out.print("Choose tile/action: ");
                         tileSelect = userInput.nextInt();
@@ -99,6 +141,7 @@ public class MyFarm {
                             //tileSelect-=1;
                             var tileAction = 0;
                             do{
+                                checkWithered();
                                 displayFarmingMenu();
                                 System.out.print("Choose action: ");
                                 // print actions
@@ -114,8 +157,12 @@ public class MyFarm {
                                             System.out.println("Choose seed: ");
                                             // print seed list
                                             seedAction = userInput.nextInt();
-                                            if(seedAction > 0 && seedAction < seedList.size()){
+                                            if(seedAction > 0 && seedAction <= seedList.size()){
                                                 tile.get(tileSelect).PlantSeed(f1, seedList.get(seedAction-1));
+                                            }else if(seedAction == 0){
+                                                System.out.println("Going back...");
+                                            }else{
+                                                System.out.println("Invalid command.");
                                             }
                                         }while(seedAction != 0);
                                     case 2:
@@ -134,6 +181,9 @@ public class MyFarm {
                                         tile.get(tileSelect).Shovel(f1);
                                         break;
                                     case 7:
+                                        //Harvest
+                                        break;
+                                    case 8:
                                         System.out.println("Proceeding to next day...");
                                         nextDay();
                                         break;
@@ -168,12 +218,15 @@ public class MyFarm {
                                 break;
                             case 1:
                                 f1.LevelUpRegistered();
+                                updateSeeds();
                                 break;
                             case 2:
                                 f1.LevelUpDistinguished();
+                                updateSeeds();
                                 break;
                             case 3:
                                 f1.LevelUpLegendary();
+                                updateSeeds();
                                 break;
                             default:
                                 System.out.println("Invalid command.");
@@ -181,12 +234,12 @@ public class MyFarm {
                     }while(farmerSelect != 0);
                     break;
                 case 0:
-
+                    Power = false;
                     System.out.println("Quiting Game...");
                 default:
                     System.out.println("Invalid command.");
             }
-        }while(menuSelect != 0);
+        }while(Power && endConditions());
 
     }
 
@@ -194,12 +247,7 @@ public class MyFarm {
         // Start game
         while(Power){ // gagawin palang yung end conditions
 
-            /*
-            Display Main Menu method
-             */
-            //DisplayMainMenu(); // displays Main Menu
-            //var command1 = userInput.nextInt();
-            performMainMenu();
+            performGame();
 
             //day++;
         }

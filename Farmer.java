@@ -90,6 +90,14 @@ public class Farmer {
         }
     }
 
+    public int getWaterBonus() {
+        return waterBonus;
+    }
+
+    public int getFertilizerBonus() {
+        return fertilizerBonus;
+    }
+
     public int getSeedDiscount() {
         return seedDiscount;
     }
