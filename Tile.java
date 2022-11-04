@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Tile {
     private boolean isPlowed;
 
@@ -28,25 +30,29 @@ public class Tile {
 
     public boolean PlantSeed(Farmer farmer, Crop seed){
         var seedCost = seed.getCost() - farmer.getSeedDiscount();
-        if(this.isPlowed && this.rock == false && seed != null && farmer.hasSufficientCoins(seedCost)){
+        if(this.isPlowed && this.rock == false && seed == null && farmer.hasSufficientCoins(seedCost)){
             this.seed = seed;
             farmer.setObjectcoins(farmer.getObjectcoins()-seedCost);
+            SeedUpdate(seed, farmer);
             System.out.println("<Success> Seed is planted.");
             return true;
         }else if(this.isPlowed == false){
-            System.out.println("<Failure> Tile is not plowed.");
+            System.out.println("<Failed> Tile is not plowed.");
             return false;
         }else if(this.rock){
-            System.out.println("<Failure> Tile has rock.");
+            System.out.println("<Failed> Tile has rock.");
             return false;
         }else{
-            System.out.println("<Failure> Not enough coins.");
+            System.out.println("<Failed> Not enough coins.");
             return false;
         }
     }
 
     public boolean Water(Farmer farmer){
-        if(this.seed == null){
+        if(this.seed.isWithered()){
+            System.out.println("<Failed> Plant has withered.");
+            return false;
+        }else if(this.seed == null){
             System.out.println("<Failed> No seed is planted.");
             return false;
         }else{
@@ -57,7 +63,10 @@ public class Tile {
     }
 
     public boolean Fertilize(Farmer farmer){
-        if(this.seed != null && farmer.hasSufficientCoins(10)){
+        if(this.seed.isWithered()){
+            System.out.println("<Failed> Plant has withered.");
+            return false;
+        }else if(this.seed != null && farmer.hasSufficientCoins(10)){
             if(seed.getFertilizer() < seed.getFertilizerLimit()){
                 seed.setFertilizer(seed.getFertilizer()+1);
             }
@@ -91,7 +100,7 @@ public class Tile {
     }
 
     public boolean Shovel(Farmer farmer){
-        if(this.seed != null && farmer.hasSufficientCoins(7) && seed.isWithered() == false){ // withered or not
+        if(this.seed != null && farmer.hasSufficientCoins(7)){ // withered or not
             this.seed = null;
             this.isPlowed = false;
             farmer.setExperience(farmer.getExperience()+2);
@@ -108,6 +117,18 @@ public class Tile {
         }
     }
 
+    public void WitherChecker(){
+            if(this.seed.getDays() > this.seed.getDaysNeeded()){
+               this.seed.setWithered(true);
+            }else if(this.seed.getDaysNeeded() == this.seed.getDays() && this.seed.getWater() < this.seed.getWaterNeeded() || this.seed.getFertilizer() < this.seed.getFertilizerNeeded()){
+                this.seed.setWithered(true);
+            }
+    }
+
+    public void SeedUpdate(Crop seed, Farmer farmer){
+        seed.setWaterLimit(seed.getWaterLimit() + farmer.getWaterBonus());
+        seed.setFertilizerLimit(seed.getFertilizerLimit() + farmer.getFertilizerBonus());
+    }
 
     public boolean isRock() {
         return rock;
