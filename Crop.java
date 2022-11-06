@@ -53,15 +53,9 @@ public class Crop {
 
 
 
-
-    //Macky
-    @Override
-    public String toString(){ // prints the plant's days left before harvest, current water
-        return "String";
+    public String getName() {
+        return name;
     }
-
-
-
 
     public void setWithered(boolean withered) {
         isWithered = withered;
@@ -95,6 +89,14 @@ public class Crop {
         this.water = water;
     }
 
+    public int getWaterNeeded() {
+        return waterNeeded;
+    }
+
+    public int getFertilizerNeeded() {
+        return fertilizerNeeded;
+    }
+
     public int getFertilizer() {
         return fertilizer;
     }
@@ -107,10 +109,6 @@ public class Crop {
         return cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
     public int getDays() {
         return days;
     }
@@ -121,5 +119,21 @@ public class Crop {
 
     public void setDays(int days) {
         this.days = days;
+    }
+
+    public int getMinimumProduce() {
+        return minimumProduce;
+    }
+
+    public int getMaximumProduce() {
+        return maximumProduce;
+    }
+
+    public int getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public double getExperienceYield() {
+        return experienceYield;
     }
 }

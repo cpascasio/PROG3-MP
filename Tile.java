@@ -1,3 +1,5 @@
+
+
 public class Tile {
     private boolean isPlowed;
 
@@ -14,120 +16,196 @@ public class Tile {
         this.seed = null;
     }
 
-    public boolean Plow(Farmer farmer){
+    public void Plow(Farmer farmer){
         if(this.isPlowed){
             System.out.println("<Failed> The tile is already plowed.");
-            return false;
         }else{
             this.isPlowed = true;
             System.out.println("<Success> The tile has been plowed.");
             farmer.setExperience(farmer.getExperience()+0.5);
-            return true;
         }
     }
 
-    public boolean PlantSeed(Farmer farmer, Crop seed){
+    public void PlantSeed(Farmer farmer, Crop seed){
         var seedCost = seed.getCost() - farmer.getSeedDiscount();
-        if(this.isPlowed && this.rock == false && seed != null && farmer.hasSufficientCoins(seedCost)){
+        if(this.isPlowed && this.rock == false && this.seed == null && farmer.hasSufficientCoins(seedCost)){
             this.seed = seed;
-            farmer.setObjectcoins(farmer.getObjectcoins()-seedCost);
             System.out.println("<Success> Seed is planted.");
-            return true;
+            System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (" + seedCost + ")");
+            farmer.setObjectcoins(farmer.getObjectcoins()-seedCost);
+            SeedUpdate(this.seed, farmer);
+
         }else if(this.isPlowed == false){
-            System.out.println("<Failure> Tile is not plowed.");
-            return false;
+            System.out.println("<Failed> Tile is not plowed.");
         }else if(this.rock){
-            System.out.println("<Failure> Tile has rock.");
-            return false;
+            System.out.println("<Failed> Tile has rock.");
         }else{
-            System.out.println("<Failure> Not enough coins.");
-            return false;
+            System.out.println("<Failed> Not enough coins.");
         }
+
     }
 
-    public boolean Water(Farmer farmer){
-        if(this.seed == null){
+    public void Water(Farmer farmer){
+        if(this.seed.isWithered()){
+            System.out.println("<Failed> Plant has withered.");
+        }else if(this.seed == null){
             System.out.println("<Failed> No seed is planted.");
-            return false;
         }else{
-            this.seed.setWater(seed.getWater()+1);
+            if(this.seed.getWater() < seed.getWaterLimit()){
+                this.seed.setWater(seed.getWater()+1);
+            }
+            System.out.println("<Success> Plant has been watered.");
+            System.out.println("<Update> Experience : " + farmer.getExperience() + " + (0.5)");
             farmer.setExperience(farmer.getExperience()+0.5);
-            return true;
         }
     }
 
-    public boolean Fertilize(Farmer farmer){
-        if(this.seed != null && farmer.hasSufficientCoins(10)){
+    public void Fertilize(Farmer farmer){
+        if(this.seed.isWithered()){
+            System.out.println("<Failed> Plant has withered.");
+        }else if(this.seed != null && farmer.hasSufficientCoins(10)){
             if(seed.getFertilizer() < seed.getFertilizerLimit()){
                 seed.setFertilizer(seed.getFertilizer()+1);
             }
             System.out.println("<Success> Plant fertilized.");
+            System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (10)");
+            System.out.println("<Update> Experience : " + farmer.getExperience() + " + (4)");
             farmer.setExperience(farmer.getExperience()+4);
             farmer.setObjectcoins(farmer.getObjectcoins()-10);
-            return true;
         }else if(farmer.hasSufficientCoins(10) == false){
             System.out.println("<Failed> insufficient money");
-            return false;
         }else{
             System.out.println("<Failed> no seed");
-            return false;
         }
     }
 
-    public boolean Pickaxe(Farmer farmer){
+    public void Pickaxe(Farmer farmer){
         if(this.isRock() && farmer.hasSufficientCoins(50)){
             this.rock = false;
+            System.out.println("<Success> Rock is removed.");
+            System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (50)");
+            System.out.println("<Update> Experience : " + farmer.getExperience() + " + (15)");
             farmer.setExperience(farmer.getExperience()+15);
             farmer.setObjectcoins(farmer.getObjectcoins()-50);
-            System.out.println("<Success> Rock is removed.");
-            return true;
         }else if(this.isRock() == false && farmer.hasSufficientCoins(50)){
             System.out.println("<Failed> No rock on tile.");
-            return false;
         }else{
             System.out.println("<Failed> Not enough coins.");
-            return false;
         }
     }
 
-    public boolean Shovel(Farmer farmer){
-        if(this.seed != null && farmer.hasSufficientCoins(7) && seed.isWithered() == false){ // withered or not
+    public void Shovel(Farmer farmer){
+        if(this.seed != null && farmer.hasSufficientCoins(7)){ // withered or not
             this.seed = null;
             this.isPlowed = false;
+            System.out.println("<Success> Plant has been removed.");
+            System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (7)");
+            System.out.println("<Update> Experience : " + farmer.getExperience() + " + (2)");
             farmer.setExperience(farmer.getExperience()+2);
             farmer.setObjectcoins(farmer.getObjectcoins()-7);
-            System.out.println("<Success> Plant has been removed.");
-            return true;
+
         }else if(this.rock == true || this.isPlowed == false && farmer.hasSufficientCoins(7)){
             System.out.println("<Success> Tile has been shoveled. ");
+            System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (7)");
             farmer.setObjectcoins(farmer.getObjectcoins()-7);
-            return true;
         }else{
             System.out.println("<Failed> Not enough coins.");
+        }
+    }
+
+    public void Harvest(Farmer farmer){
+        int productsProduced = (int)Math.floor(Math.random()*(seed.getMaximumProduce()-seed.getMinimumProduce()+1)+seed.getMinimumProduce());
+        double HarvestTotal = productsProduced * (seed.getSellingPrice() + farmer.getBonusEarnings());
+        double WaterBonus = HarvestTotal * 0.2 * (seed.getWater() - 1);
+        double FertilizerBonus = HarvestTotal * 0.2 * (seed.getFertilizer());
+        double FinalHarvestPrice = HarvestTotal + WaterBonus + FertilizerBonus;
+        System.out.println("[HARVESTED (" + seed.getName() + ")]");
+        System.out.println("Products sold : " + productsProduced + "(" + HarvestTotal + ")");
+        System.out.println("Water Bonus : " + WaterBonus);
+        System.out.println("Fertilizer Bonus : " + FertilizerBonus);
+        System.out.println("Total Harvest Price : " + FinalHarvestPrice);
+        System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " + (" + FinalHarvestPrice + ")");
+        System.out.println("<Update> Experience : " + farmer.getExperience() + " + (" + this.seed.getExperienceYield() + ")");
+        farmer.setObjectcoins(farmer.getObjectcoins() + FinalHarvestPrice);
+        farmer.setExperience(farmer.getExperience() + this.seed.getExperienceYield());
+        this.isPlowed = false;
+        this.seed = null;
+    }
+
+
+    public void WitherChecker(){
+        if(seed != null){
+            if(this.seed.getDays() > this.seed.getDaysNeeded()){
+                this.seed.setWithered(true);
+            }else if(this.seed.getDaysNeeded() == this.seed.getDays() && this.seed.getWater() < this.seed.getWaterNeeded() || this.seed.getFertilizer() < this.seed.getFertilizerNeeded()){
+                this.seed.setWithered(true);
+            }
+        }
+    }
+
+    public boolean isHarvestable(){
+        if(this.seed != null){
+            if(this.seed.getDays() == this.seed.getDaysNeeded() && this.seed.getWater() >= this.seed.getWaterNeeded() && this.seed.getFertilizer() >= this.seed.getFertilizerNeeded() && this.seed.isWithered() == false){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
             return false;
         }
     }
 
+    public void SeedUpdate(Crop seed, Farmer farmer){
+        seed.setWaterLimit(seed.getWaterLimit() + farmer.getWaterBonus());
+        seed.setFertilizerLimit(seed.getFertilizerLimit() + farmer.getFertilizerBonus());
+    }
+
+
+    public void TileStatus(){
+        System.out.println("[TILE STATUS]");
+        if(seed != null){
+            System.out.println("Plant : " + seed.getName());
+            if(seed.isWithered()){
+                System.out.println("Withered : Yes");
+            }else{
+                System.out.println("Withered : No");
+            }
+            if(isHarvestable()){
+                System.out.println("Is Harvestable : Yes");
+            }else{
+                System.out.println("Is Harvestable : No");
+                System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
+                System.out.println("Current Water : " + seed.getWater());
+                System.out.println("Water needed to harvest : " + seed.getWaterNeeded() + " (" + seed.getWaterLimit() + ")");
+                System.out.println("Current Fertilizer : " + seed.getFertilizer());
+                System.out.println("Fertilizer needed to harvest : " + seed.getFertilizerNeeded() + " (" + seed.getFertilizerLimit() + ")");
+            }
+            if(seed.isWithered() == false){
+                System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
+            }
+        }else{
+            if(this.isPlowed){
+                System.out.println("Plowed : Yes");
+            }else{
+                System.out.println("Plowed : No");
+            }
+            if(this.rock){
+                System.out.println("Rock : Yes");
+            }else{
+                System.out.println("Rock : No");
+            }
+        }
+
+
+
+    }
 
     public boolean isRock() {
         return rock;
-    }
-
-
-
-    public boolean isPlowed() {
-        return isPlowed;
-    }
-
-    public void setPlowed(boolean plowed) {
-        isPlowed = plowed;
     }
 
     public Crop getSeed() {
         return seed;
     }
 
-    public void setSeed(Crop seed) {
-        this.seed = seed;
-    }
 }
