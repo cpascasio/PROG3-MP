@@ -40,7 +40,6 @@ public class Farmer {
         return (int)exp / 100;
     }
 
-    //duplicate for other levels
     public boolean LevelUpRegistered(){
         if(getLvl(this.experience) >= 5 && this.name == "Farmer" && this.Objectcoins >= 200){
             System.out.println("<Success> Leveled up to Registered Farmer. ");

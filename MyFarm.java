@@ -9,7 +9,7 @@ public class MyFarm {
     public static boolean Power = true;
     public static ArrayList<Tile> tile = new ArrayList<Tile>(Arrays.asList(new Tile()));
 
-    public static int day = 0;
+    public static int day = 1;
 
     public static final ArrayList<Crop> seedList = new ArrayList<Crop>(Arrays.asList(new Crop("Turnip", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5),
             new Crop("Carrot", 3, 1, 2, 0, 1, 1, 2, 10, 9, 7.5),
@@ -89,6 +89,10 @@ public class MyFarm {
         System.out.println("(0) Go Back");
     }
 
+    public static Crop duplicateSeed(Crop seed){
+        return new Crop(seed.getName(), seed.getDaysNeeded(), seed.getWaterNeeded(), seed.getWaterLimit(), seed.getFertilizerNeeded(), seed.getFertilizerLimit(), seed.getMinimumProduce(), seed.getMaximumProduce(), seed.getCost(), seed.getSellingPrice(), seed.getExperienceYield());
+    }
+
     public static void nextDay(){
         for(Tile t : tile){
             if(t.getSeed() != null){
@@ -166,27 +170,23 @@ public class MyFarm {
                                     System.out.print("Choose action: ");
                                     // print actions
                                     tileAction = userInput.nextInt();
-                                    //if(tile.get(tileSelect).getSeed().isHarvestable()){
                                         switch(tileAction){
                                             case 0:
                                                 System.out.println("Going back...");
                                                 break;
                                             case 1: // plant seed
                                                 var seedAction = 0;
-                                                do{
-                                                    displayGameStatus();
-                                                    displaySeedMenu();
-                                                    System.out.println("Choose seed: ");
-                                                    // print seed list
-                                                    seedAction = userInput.nextInt();
-                                                    if(seedAction > 0 && seedAction <= seedList.size()){
-                                                        tile.get(tileSelect).PlantSeed(f1, seedList.get(seedAction-1));
-                                                    }else if(seedAction == 0){
-                                                        System.out.println("Going back...");
-                                                    }else{
-                                                        System.out.println("Invalid command.");
-                                                    }
-                                                }while(seedAction != 0);
+                                                displayGameStatus();
+                                                displaySeedMenu();
+                                                System.out.println("Choose seed: ");
+                                                seedAction = userInput.nextInt();
+                                                if(seedAction > 0 && seedAction <= seedList.size()){
+                                                    tile.get(tileSelect).PlantSeed(f1, seedList.get(seedAction-1));
+                                                }else if(seedAction == 0){
+                                                    System.out.println("Going back...");
+                                                }else{
+                                                    System.out.println("Invalid command.");
+                                                }
                                                 break;
                                             case 2:
                                                 tile.get(tileSelect).Plow(f1);
@@ -226,19 +226,17 @@ public class MyFarm {
                                             break;
                                         case 1: // plant seed
                                             var seedAction = 0;
-                                            do{
-                                                displayGameStatus();
-                                                displaySeedMenu();
-                                                System.out.println("Choose seed: ");
-                                                seedAction = userInput.nextInt();
-                                                if(seedAction > 0 && seedAction <= seedList.size()){
-                                                    tile.get(tileSelect).PlantSeed(f1, seedList.get(seedAction-1));
-                                                }else if(seedAction == 0){
-                                                    System.out.println("Going back...");
-                                                }else{
-                                                    System.out.println("Invalid command.");
-                                                }
-                                            }while(seedAction != 0);
+                                            displayGameStatus();
+                                            displaySeedMenu();
+                                            System.out.println("Choose seed: ");
+                                            seedAction = userInput.nextInt();
+                                            if(seedAction > 0 && seedAction <= seedList.size()){
+                                                tile.get(tileSelect).PlantSeed(f1, duplicateSeed(seedList.get(seedAction-1)));
+                                            }else if(seedAction == 0){
+                                                System.out.println("Going back...");
+                                            }else{
+                                                System.out.println("Invalid command.");
+                                            }
                                             break;
                                         case 2:
                                             tile.get(tileSelect).Plow(f1);

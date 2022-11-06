@@ -1,4 +1,5 @@
-
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class Tile {
     private boolean isPlowed;
@@ -39,8 +40,10 @@ public class Tile {
             System.out.println("<Failed> Tile is not plowed.");
         }else if(this.rock){
             System.out.println("<Failed> Tile has rock.");
-        }else{
+        }else if(farmer.hasSufficientCoins(seedCost) == false){
             System.out.println("<Failed> Not enough coins.");
+        }else{
+            System.out.println("<Failed> A seed is already planted.");
         }
 
     }
@@ -114,6 +117,7 @@ public class Tile {
     }
 
     public void Harvest(Farmer farmer){
+        NumberFormat formatter = new DecimalFormat("#0.0");
         int productsProduced = (int)Math.floor(Math.random()*(seed.getMaximumProduce()-seed.getMinimumProduce()+1)+seed.getMinimumProduce());
         double HarvestTotal = productsProduced * (seed.getSellingPrice() + farmer.getBonusEarnings());
         double WaterBonus = HarvestTotal * 0.2 * (seed.getWater() - 1);
@@ -121,8 +125,9 @@ public class Tile {
         double FinalHarvestPrice = HarvestTotal + WaterBonus + FertilizerBonus;
         System.out.println("[HARVESTED (" + seed.getName() + ")]");
         System.out.println("Products sold : " + productsProduced + "(" + HarvestTotal + ")");
-        System.out.println("Water Bonus : " + WaterBonus);
-        System.out.println("Fertilizer Bonus : " + FertilizerBonus);
+        System.out.println("Harvest Total : " + HarvestTotal);
+        System.out.println("Water Bonus : " + formatter.format(WaterBonus));
+        System.out.println("Fertilizer Bonus : " + formatter.format(FertilizerBonus));
         System.out.println("Total Harvest Price : " + FinalHarvestPrice);
         System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " + (" + FinalHarvestPrice + ")");
         System.out.println("<Update> Experience : " + farmer.getExperience() + " + (" + this.seed.getExperienceYield() + ")");
@@ -170,16 +175,11 @@ public class Tile {
             }else{
                 System.out.println("Withered : No");
             }
-            if(isHarvestable()){
-                System.out.println("Is Harvestable : Yes");
-            }else{
-                System.out.println("Is Harvestable : No");
-                System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
-                System.out.println("Current Water : " + seed.getWater());
-                System.out.println("Water needed to harvest : " + seed.getWaterNeeded() + " (" + seed.getWaterLimit() + ")");
-                System.out.println("Current Fertilizer : " + seed.getFertilizer());
-                System.out.println("Fertilizer needed to harvest : " + seed.getFertilizerNeeded() + " (" + seed.getFertilizerLimit() + ")");
-            }
+            System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
+            System.out.println("Current Water : " + seed.getWater());
+            System.out.println("Water needed to harvest : " + seed.getWaterNeeded() + " (" + seed.getWaterLimit() + ")");
+            System.out.println("Current Fertilizer : " + seed.getFertilizer());
+            System.out.println("Fertilizer needed to harvest : " + seed.getFertilizerNeeded() + " (" + seed.getFertilizerLimit() + ")");
             if(seed.isWithered() == false){
                 System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
             }
