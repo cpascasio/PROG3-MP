@@ -1,36 +1,42 @@
 public class Crop {
 
-    private String name;
+    private String name; // name of the seed
 
-    private int days;
+    private int days; // the days of the seed
 
-    private int daysNeeded;
+    private int daysNeeded; // days needed to harvest
 
-    private int minimumProduce;
+    private int minimumProduce; // minimum products to be produced
 
-    private int maximumProduce;
+    private int maximumProduce; // maximum products to be produced
 
-    private int cost;
+    private int cost; // seed cost to plant
 
-    private int sellingPrice;
+    private int sellingPrice; // selling price of each produce
 
-    private double experienceYield;
+    private double experienceYield; // experience gained by player on harvest
 
-    private int water;
-
-
-    private int waterNeeded;
-
-    private int waterLimit;
-
-    private int fertilizer;
+    private int water; // amount of water
 
 
-    private int fertilizerNeeded;
+    private int waterNeeded; // amount of water needed for harvesting
 
-    private int fertilizerLimit;
+    private int waterLimit; // maximum amount of water for bonus
 
-    private boolean isWithered;
+    private int fertilizer; // amount of fertilizer
+
+
+    private int fertilizerNeeded; // amount of fertilizer needed for harvesting
+
+    private int fertilizerLimit; // maximum amount of fertilizer for bonus
+
+    private boolean isWithered; // Withered status of the seed
+
+    /*
+	Purpose: creates a Crop object. (Constructor)
+	Returns: void
+	Pre-condition: the parameters contain valid values
+    */
 
     public Crop(String name, int daysNeeded, int waterNeeded, int waterLimit, int fertilizerNeeded, int fertilizerLimit, int minimumProduce, int maximumProduce, int cost, int sellingPrice, double experienceYield){
         this.name = name;
@@ -51,18 +57,21 @@ public class Crop {
     }
 
 
-
-
-
-    //Macky
-    @Override
-    public String toString(){ // prints the plant's days left before harvest, current water
-        return "String";
+    /*
+	Purpose: returns the name of the seed
+	Returns: String
+	Pre-condition: N/A
+    */
+    public String getName() {
+        return name;
     }
 
-
-
-
+    /*
+	Purpose: returns true if plant is withered, false if not
+	Returns: String
+	@param boolean:
+	Pre-condition: N/A
+    */
     public void setWithered(boolean withered) {
         isWithered = withered;
     }
@@ -95,6 +104,14 @@ public class Crop {
         this.water = water;
     }
 
+    public int getWaterNeeded() {
+        return waterNeeded;
+    }
+
+    public int getFertilizerNeeded() {
+        return fertilizerNeeded;
+    }
+
     public int getFertilizer() {
         return fertilizer;
     }
@@ -107,10 +124,6 @@ public class Crop {
         return cost;
     }
 
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
     public int getDays() {
         return days;
     }
@@ -121,5 +134,21 @@ public class Crop {
 
     public void setDays(int days) {
         this.days = days;
+    }
+
+    public int getMinimumProduce() {
+        return minimumProduce;
+    }
+
+    public int getMaximumProduce() {
+        return maximumProduce;
+    }
+
+    public int getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public double getExperienceYield() {
+        return experienceYield;
     }
 }
