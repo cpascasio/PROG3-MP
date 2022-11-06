@@ -2,13 +2,17 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 public class Tile {
-    private boolean isPlowed;
+    private boolean isPlowed; // If tile is plowed or not
 
-    private boolean rock;
+    private boolean rock; // If there is a rock on tile or not
 
-    private Crop seed;
+    private Crop seed; // The planted seed on the tile
 
-
+    /*
+    Purpose: Creates a Tile instance (Constructor)
+    Returns: void
+    Pre-condition: N/A
+    */
     public Tile(){
         this.isPlowed = false;
 
@@ -17,6 +21,12 @@ public class Tile {
         this.seed = null;
     }
 
+    /*
+	Purpose: Checks if the tile can be plowed, plows the tile and updates player's experience. Prints the feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	Pre-condition: the parameters contain valid values
+    */
     public void Plow(Farmer farmer){
         if(this.isPlowed){
             System.out.println("<Failed> The tile is already plowed.");
@@ -27,6 +37,13 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: Checks if the tile can be planted on, plants the seed given in the parameter and applies the player's water and fertilizer limit. It also updates the player's experience and coins. Prints the feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	@param : seed is a Crop object containing the water needs, fertilizer needs, days needed to harvest, and etc.
+	Pre-condition: the parameters contain valid values
+    */
     public void PlantSeed(Farmer farmer, Crop seed){
         var seedCost = seed.getCost() - farmer.getSeedDiscount();
         if(this.isPlowed && this.rock == false && this.seed == null && farmer.hasSufficientCoins(seedCost)){
@@ -48,6 +65,12 @@ public class Tile {
 
     }
 
+    /*
+	Purpose: Checks if the tile can be watered, waters the seed and updates the farmer's experience. Prints the feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	Pre-condition: the parameters contain valid values
+    */
     public void Water(Farmer farmer){
         if(this.seed.isWithered()){
             System.out.println("<Failed> Plant has withered.");
@@ -63,6 +86,12 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: Checks if the tile can be fertilized, adds fertilizer to the seed and updates player's Objectcoins and experience. Prints the feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	Pre-condition: the parameters contain valid values
+    */
     public void Fertilize(Farmer farmer){
         if(this.seed.isWithered()){
             System.out.println("<Failed> Plant has withered.");
@@ -82,6 +111,13 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: Checks if there is a rock, removes the rock and updates the player's Objectcoins and experience. Prints the feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	@param : seed is a Crop object containing the water needs, fertilizer needs, days needed to harvest, and etc.
+	Pre-condition: the parameters contain valid values
+    */
     public void Pickaxe(Farmer farmer){
         if(this.isRock() && farmer.hasSufficientCoins(50)){
             this.rock = false;
@@ -97,6 +133,12 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: Checks the tile there is a seed. Removes the seed on the tile. Updates the player's objectcoins and experience. Prints feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	Pre-condition: the parameters contain valid values
+    */
     public void Shovel(Farmer farmer){
         if(this.seed != null && farmer.hasSufficientCoins(7)){ // withered or not
             this.seed = null;
@@ -116,6 +158,12 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: Harvests the plant/seed in the tile. Resets the plow status and seed of the tile. Updates the player's objectcoins and experience. Prints feedback.
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	Pre-condition: the parameters contain valid values
+    */
     public void Harvest(Farmer farmer){
         NumberFormat formatter = new DecimalFormat("#0.0");
         int productsProduced = (int)Math.floor(Math.random()*(seed.getMaximumProduce()-seed.getMinimumProduce()+1)+seed.getMinimumProduce());
@@ -138,6 +186,11 @@ public class Tile {
     }
 
 
+    /*
+	Purpose: Checks the seed if it's not empty, checks the seed if it has withered status requirements. Updates the status of seed.
+	Returns: void
+	Pre-condition: N/A
+    */
     public void WitherChecker(){
         if(seed != null){
             if(this.seed.getDays() > this.seed.getDaysNeeded()){
@@ -148,6 +201,11 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: returns true if the seed meets the harvesting requirements, false if not.
+	Returns: boolean
+	Pre-condition: N/A
+    */
     public boolean isHarvestable(){
         if(this.seed != null){
             if(this.seed.getDays() == this.seed.getDaysNeeded() && this.seed.getWater() >= this.seed.getWaterNeeded() && this.seed.getFertilizer() >= this.seed.getFertilizerNeeded() && this.seed.isWithered() == false){
@@ -160,12 +218,23 @@ public class Tile {
         }
     }
 
+    /*
+	Purpose: Updates the water limit and fertilizer limit of the seed based on farmer's waterlimit bonus and fertilizer limit bonus
+	Returns: void
+	@param : farmer is a Farmer object containing the player's coins, experience, farmer level, and benefits.
+	@param : seed is a Crop object containing the water needs, fertilizer needs, days needed to harvest, and etc.
+	Pre-condition: N/A
+    */
     public void SeedUpdate(Crop seed, Farmer farmer){
         seed.setWaterLimit(seed.getWaterLimit() + farmer.getWaterBonus());
         seed.setFertilizerLimit(seed.getFertilizerLimit() + farmer.getFertilizerBonus());
     }
 
-
+    /*
+	Purpose: displays the status of the tile.
+	Returns: void
+	Pre-condition: N/A
+    */
     public void TileStatus(){
         System.out.println("[TILE STATUS]");
         if(seed != null){
@@ -195,15 +264,22 @@ public class Tile {
                 System.out.println("Rock : No");
             }
         }
-
-
-
     }
 
+    /*
+	Purpose: gets the value of rock in the tile. true if there's rock, false if not.
+	Returns: boolean
+	Pre-condition: N/A
+    */
     public boolean isRock() {
         return rock;
     }
 
+    /*
+	Purpose: returns the seed.
+	Returns: Crop
+	Pre-condition: N/A
+    */
     public Crop getSeed() {
         return seed;
     }
