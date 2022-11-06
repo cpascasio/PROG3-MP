@@ -71,13 +71,13 @@ public class MyFarm {
     public static void displaySeedMenu(){
         System.out.println("[SEED MENU]");
         System.out.println("(1) Turnip - " + (seedList.get(0).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(2) Carrot" + (seedList.get(1).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(3) Potato" + (seedList.get(2).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(4) Rose" + (seedList.get(3).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(5) Tulips" + (seedList.get(4).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(6) Sunflower" + (seedList.get(5).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(7) Mango" + (seedList.get(6).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
-        System.out.println("(8) Apple" + (seedList.get(7).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(2) Carrot - " + (seedList.get(1).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(3) Potato - " + (seedList.get(2).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(4) Rose - " + (seedList.get(3).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(5) Tulips - " + (seedList.get(4).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(6) Sunflower - " + (seedList.get(5).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(7) Mango - " + (seedList.get(6).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
+        System.out.println("(8) Apple - " + (seedList.get(7).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
         System.out.println("(0) Go Back");
     }
 
