@@ -40,8 +40,8 @@ public class Farmer {
         return (int)exp / 100;
     }
 
-    public boolean LevelUpRegistered(){
-        if(getLvl(this.experience) >= 5 && this.name == "Farmer" && this.Objectcoins >= 200){
+    public void LevelUpRegistered(){
+        if(getLvl(this.experience) >= 5 && this.name.equals("Farmer") && this.Objectcoins >= 200){
             System.out.println("<Success> Leveled up to Registered Farmer. ");
             System.out.println("<Update> ObjectCoins : " + this.getObjectcoins() + " - (200)");
             this.name = "Registered Farmer";
@@ -49,15 +49,13 @@ public class Farmer {
             this.seedDiscount = 1;
             this.Objectcoins -= 200;
             System.out.println("<Success> Leveled up to Registered Farmer. ");
-            return true;
         }else{
             System.out.println("<Failure> Failed to level up.");
-            return false;
         }
     }
 
-    public boolean LevelUpDistinguished(){
-        if(getLvl(this.experience) >= 10 && this.name == "Registered Farmer" && this.Objectcoins >= 300){
+    public void LevelUpDistinguished(){
+        if(getLvl(this.experience) >= 10 && this.name.equals("Registered Farmer") && this.Objectcoins >= 300){
             System.out.println("<Success> Leveled up to Distinguished Farmer. ");
             System.out.println("<Update> ObjectCoins : " + this.getObjectcoins() + " - (300)");
             this.name = "Distinguished Farmer";
@@ -65,15 +63,13 @@ public class Farmer {
             this.seedDiscount = 2;
             this.waterBonus = 1;
             this.Objectcoins -= 300;
-            return true;
         }else{
             System.out.println("<Failure> Failed to level up.");
-            return false;
         }
     }
 
-    public boolean LevelUpLegendary(){
-        if(getLvl(this.experience) >= 15 && this.name == "Distinguished Farmer" && this.Objectcoins >= 400){
+    public void LevelUpLegendary(){
+        if(getLvl(this.experience) >= 15 && this.name.equals("Distinguished Farmer") && this.Objectcoins >= 400){
             System.out.println("<Success> Leveled up to Legendary Farmer. ");
             System.out.println("<Update> ObjectCoins : " + this.getObjectcoins() + " - (400)");
             this.name = "Legendary Farmer";
@@ -82,11 +78,8 @@ public class Farmer {
             this.waterBonus = 2;
             this.fertilizerBonus = 1;
             this.Objectcoins -= 400;
-
-            return true;
         }else{
             System.out.println("<Failure> Failed to level up.");
-            return false;
         }
     }
 

@@ -1,6 +1,14 @@
+/*
+
+References:
+https://stackoverflow.com/questions/12806278/double-decimal-formatting-in-java
+https://www.educative.io/answers/how-to-generate-random-numbers-in-java
+ */
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
 
 public class MyFarm {
 
@@ -11,7 +19,7 @@ public class MyFarm {
 
     public static int day = 1;
 
-    public static final ArrayList<Crop> seedList = new ArrayList<Crop>(Arrays.asList(new Crop("Turnip", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5),
+    public static final ArrayList<Crop> seedList = new ArrayList<>(Arrays.asList(new Crop("Turnip", 2, 1, 2, 0, 1, 1, 2, 5, 6, 5),
             new Crop("Carrot", 3, 1, 2, 0, 1, 1, 2, 10, 9, 7.5),
             new Crop("Potato", 5, 3, 4, 1, 2, 1, 10, 20, 3, 12.5),
             new Crop("Rose", 1, 1, 2, 0, 1, 1, 1, 5, 5, 2.5),
@@ -153,7 +161,7 @@ public class MyFarm {
                 case 1: // Farm
                     var tileSelect = 0;
                     do{
-                        checkWithered();//check if withered
+                        checkWithered(); //check if withered
                         displayGameStatus();
                         displayTileMenu();
                         System.out.print("Choose tile/action: ");
@@ -168,7 +176,6 @@ public class MyFarm {
                                     tile.get(tileSelect).TileStatus();
                                     displayFarmingMenuHarvest();
                                     System.out.print("Choose action: ");
-                                    // print actions
                                     tileAction = userInput.nextInt();
                                         switch(tileAction){
                                             case 0:
@@ -188,16 +195,16 @@ public class MyFarm {
                                                     System.out.println("Invalid command.");
                                                 }
                                                 break;
-                                            case 2:
+                                            case 2: // Plow tile
                                                 tile.get(tileSelect).Plow(f1);
                                                 break;
-                                            case 3:
+                                            case 3: // Water seed
                                                 tile.get(tileSelect).Water(f1);
                                                 break;
-                                            case 4:
+                                            case 4: // add Fertilizer to tile
                                                 tile.get(tileSelect).Fertilize(f1);
                                                 break;
-                                            case 5:
+                                            case 5: //
                                                 tile.get(tileSelect).Pickaxe(f1);
                                                 break;
                                             case 6:
@@ -262,7 +269,7 @@ public class MyFarm {
                                             System.out.println("Invalid command.");
                                     }
                                 }
-                            }while(tileAction != 0);
+                            }while(tileAction != 0 && endConditions(tile.get(0)));
                             //tileSelect += 1;
                         }else if(tileSelect == 50){
                             System.out.println("Proceeding to next day...");
@@ -275,7 +282,7 @@ public class MyFarm {
                             System.out.println("Invalid tile/action.");
                         }
 
-                    }while(tileSelect != 0);
+                    }while(tileSelect != 0 && endConditions(tile.get(0)));
                     break;
                 case 2:
                     var farmerSelect = 0;
@@ -303,7 +310,7 @@ public class MyFarm {
                             default:
                                 System.out.println("Invalid command.");
                         }
-                    }while(farmerSelect != 0);
+                    }while(farmerSelect != 0 && endConditions(tile.get(0)));
                     break;
                 case 0:
                     Power = false;
