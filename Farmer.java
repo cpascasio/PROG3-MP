@@ -1,13 +1,12 @@
 public class Farmer {
 
-    private String name;
-    private double experience;
-    private int bonusEarnings;
-    private int seedDiscount;
-    private int waterBonus;
-    private int fertilizerBonus;
-
-    private double Objectcoins;
+    private String name; // Stores the title/rank name of the Farmer
+    private double experience; // the experience of the farmer
+    private int bonusEarnings; // the bonus earnings for harvesting
+    private int seedDiscount; // amount of seed cost discount
+    private int waterBonus; // the water limit bonus
+    private int fertilizerBonus; // the fertilizer limit bonus
+    private double Objectcoins; // the money of the farmer
 
     public Farmer(){
 
@@ -28,6 +27,12 @@ public class Farmer {
     }
 
 
+    /*
+	Purpose: checks if the player has enough coins compared to cost. returns true if player Objectcoins is greater than cost, false if not.
+	Returns: boolean
+	@param : cost is an int containing the amount to be paid
+	Pre-condition: the parameters contain valid values
+    */
     public boolean hasSufficientCoins(int cost){
         if(this.Objectcoins >= cost){
             return true;
@@ -36,10 +41,21 @@ public class Farmer {
         }
     }
 
+    /*
+	Purpose: converts the experience of the player to level. returns the converted level.
+	Returns: int
+	@param : exp is a double containing the exp to be converted
+	Pre-condition: the parameters contain valid values
+    */
     public int getLvl(double exp){
         return (int)exp / 100;
     }
 
+    /*
+	Purpose: Checks if the player meets the requirement to level up. Levels up the player to Registered Farmer.
+	Returns: void
+	Pre-condition: the parameters contain valid values
+    */
     public void LevelUpRegistered(){
         if(getLvl(this.experience) >= 5 && this.name.equals("Farmer") && this.Objectcoins >= 200){
             System.out.println("<Success> Leveled up to Registered Farmer. ");
@@ -54,6 +70,11 @@ public class Farmer {
         }
     }
 
+    /*
+	Purpose: Checks if the player meets the requirement to level up. Levels up the player to Distinguished Farmer.
+	Returns: void
+	Pre-condition: the parameters contain valid values
+    */
     public void LevelUpDistinguished(){
         if(getLvl(this.experience) >= 10 && this.name.equals("Registered Farmer") && this.Objectcoins >= 300){
             System.out.println("<Success> Leveled up to Distinguished Farmer. ");
@@ -68,6 +89,11 @@ public class Farmer {
         }
     }
 
+    /*
+	Purpose: Checks if the player meets the requirement to level up. Levels up the player to Legendary Farmer.
+	Returns: void
+	Pre-condition: the parameters contain valid values
+    */
     public void LevelUpLegendary(){
         if(getLvl(this.experience) >= 15 && this.name.equals("Distinguished Farmer") && this.Objectcoins >= 400){
             System.out.println("<Success> Leveled up to Legendary Farmer. ");

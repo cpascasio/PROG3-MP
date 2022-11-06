@@ -270,10 +270,10 @@ public class MyFarm {
                                     }
                                 }
                             }while(tileAction != 0 && endConditions(tile.get(0)));
-                            //tileSelect += 1;
                         }else if(tileSelect == 50){
                             System.out.println("Proceeding to next day...");
                             nextDay();
+                            day++;
                         }else if(tileSelect == 51){
                             System.out.println("Going back...");
                         }else if(tileSelect > 0 && tileSelect < 50){
@@ -282,7 +282,7 @@ public class MyFarm {
                             System.out.println("Invalid tile/action.");
                         }
 
-                    }while(tileSelect != 0 && endConditions(tile.get(0)));
+                    }while(tileSelect != 51 && endConditions(tile.get(0)));
                     break;
                 case 2:
                     var farmerSelect = 0;
