@@ -1,3 +1,10 @@
+/*
+Name: Christan James C. Pascasio && Lawrence Mark Dural
+Section : S21
+References:
+https://stackoverflow.com/questions/12806278/double-decimal-formatting-in-java
+https://www.educative.io/answers/how-to-generate-random-numbers-in-java
+ */
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
