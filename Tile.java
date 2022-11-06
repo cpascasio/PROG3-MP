@@ -226,8 +226,8 @@ public class Tile {
 	Pre-condition: N/A
     */
     public void SeedUpdate(Crop seed, Farmer farmer){
-        seed.setWaterLimit(seed.getWaterLimit() + farmer.getWaterBonus());
-        seed.setFertilizerLimit(seed.getFertilizerLimit() + farmer.getFertilizerBonus());
+        this.seed.setWaterLimit(seed.getWaterLimit() + farmer.getWaterBonus());
+        this.seed.setFertilizerLimit(seed.getFertilizerLimit() + farmer.getFertilizerBonus());
     }
 
     /*
