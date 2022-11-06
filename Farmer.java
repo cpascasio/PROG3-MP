@@ -8,6 +8,11 @@ public class Farmer {
     private int fertilizerBonus; // the fertilizer limit bonus
     private double Objectcoins; // the money of the farmer
 
+    /*
+    Purpose: Creates a Farmer instance (Constructor)
+    Returns: void
+    Pre-condition: N/A
+    */
     public Farmer(){
 
         this.name = "Farmer";

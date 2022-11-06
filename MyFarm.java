@@ -188,7 +188,7 @@ public class MyFarm {
                                                 System.out.println("Choose seed: ");
                                                 seedAction = userInput.nextInt();
                                                 if(seedAction > 0 && seedAction <= seedList.size()){
-                                                    tile.get(tileSelect).PlantSeed(f1, seedList.get(seedAction-1));
+                                                    tile.get(tileSelect).PlantSeed(f1, duplicateSeed(seedList.get(seedAction-1)));
                                                 }else if(seedAction == 0){
                                                     System.out.println("Going back...");
                                                 }else{
@@ -204,13 +204,13 @@ public class MyFarm {
                                             case 4: // add Fertilizer to tile
                                                 tile.get(tileSelect).Fertilize(f1);
                                                 break;
-                                            case 5: //
+                                            case 5: // Use Pickaxe on tile
                                                 tile.get(tileSelect).Pickaxe(f1);
                                                 break;
-                                            case 6:
+                                            case 6: // Shovel the tile
                                                 tile.get(tileSelect).Shovel(f1);
                                                 break;
-                                            case 7:
+                                            case 7: // Proceed to next day
                                                 System.out.println("Proceeding to next day...");
                                                 nextDay();
                                                 day++;
