@@ -161,8 +161,11 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void checkWithered(){
+        int i = 0;
         for(Tile currTile : tile){
-            currTile.WitherChecker();
+            if(currTile.WitherChecker(i)){
+            }
+            i++;
         }
     }
 
