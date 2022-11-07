@@ -1,5 +1,6 @@
 /*
-Name: Christan James C. Pascasio && Lawrence Mark Dural
+Name: Christan James C. Pascasio & Lawrence Mark Dural
+Group: 3
 Section : S21
 References:
 https://stackoverflow.com/questions/12806278/double-decimal-formatting-in-java
@@ -48,6 +49,7 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void displayMainMenu(){
+        System.out.println("");
         System.out.println("[MAIN MENU]");
         System.out.println("(1) Farm");
         System.out.println("(2) Farmer");
@@ -60,10 +62,10 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void displayTileMenu(){
+        System.out.println("");
         System.out.println("[TILE SELECT]");
         System.out.println("(0 - 49) Tiles");
-        System.out.println("(50) Next Day");
-        System.out.println("(51) Go Back");
+        System.out.println("(50) Go Back");
     }
 
     /*
@@ -72,6 +74,7 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void displayFarmingMenu(){
+        System.out.println("");
         System.out.println("[FARMING MENU]");
         System.out.println("(1) Plant Seed");
         System.out.println("(2) Plow");
@@ -89,6 +92,7 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void displayFarmingMenuHarvest(){
+        System.out.println("");
         System.out.println("[FARMING MENU]");
         System.out.println("(1) Plant Seed");
         System.out.println("(2) Plow");
@@ -107,6 +111,7 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void displaySeedMenu(){
+        System.out.println("");
         System.out.println("[SEED MENU]");
         System.out.println("(1) Turnip - " + (seedList.get(0).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
         System.out.println("(2) Carrot - " + (seedList.get(1).getCost() - f1.getSeedDiscount()) + " ObjectCoins");
@@ -125,6 +130,7 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void displayFarmerMenu(){
+        System.out.println("");
         System.out.println("[FARMER MENU]");
         System.out.println("(1) Level Up [Registered Farmer] - 200 ObjectCoins");
         System.out.println("(2) Level Up [Distinguished Farmer] - 300 ObjectCoins");
@@ -161,8 +167,11 @@ public class MyFarm {
     Pre-condition: N/A
     */
     public static void checkWithered(){
+        int i = 0;
         for(Tile currTile : tile){
-            currTile.WitherChecker();
+            if(currTile.WitherChecker(i)){
+            }
+            i++;
         }
     }
 
@@ -233,7 +242,7 @@ public class MyFarm {
                 case 1: // Farm
                     var tileSelect = 0;
                     do{
-                        checkWithered(); //check if withered
+                        //checkWithered(); //check if withered
                         displayGameStatus(); // display the game status
                         displayTileMenu(); // displays tile menu
                         System.out.print("Choose tile/action: ");
@@ -241,7 +250,6 @@ public class MyFarm {
                         if(tileSelect == 0){
                             var tileAction = 0;
                             do{
-                                checkWithered(); // check if seeds are withered
                                 if(tile.get(tileSelect).isHarvestable()){ // if the seed is ready to be harvested, enters this menu with harvest available as option.
                                     displayGameStatus(); // displays the game status
                                     tile.get(tileSelect).TileStatus();
@@ -256,7 +264,7 @@ public class MyFarm {
                                                 var seedAction = 0;
                                                 displayGameStatus(); // displays game status
                                                 displaySeedMenu(); // displays the seed list menu
-                                                System.out.println("Choose seed: ");
+                                                System.out.print("Choose seed: ");
                                                 seedAction = userInput.nextInt();
                                                 if(seedAction > 0 && seedAction <= seedList.size()){
                                                     tile.get(tileSelect).PlantSeed(f1, duplicateSeed(seedList.get(seedAction-1))); // plants the seed
@@ -306,7 +314,7 @@ public class MyFarm {
                                             var seedAction = 0;
                                             displayGameStatus(); // displays game status
                                             displaySeedMenu(); // displays the seed list menu
-                                            System.out.println("Choose seed: ");
+                                            System.out.print("Choose seed: ");
                                             seedAction = userInput.nextInt(); // asks for user input
                                             if(seedAction > 0 && seedAction <= seedList.size()){
                                                 tile.get(tileSelect).PlantSeed(f1, duplicateSeed(seedList.get(seedAction-1))); // plants the seed
@@ -340,19 +348,16 @@ public class MyFarm {
                                             System.out.println("Invalid command.");
                                     }
                                 }
+                                checkWithered(); // check if seeds are withered
                             }while(tileAction != 0 && endConditions(tile.get(0)));
                         }else if(tileSelect == 50){
-                            System.out.println("Proceeding to next day...");
-                            nextDay(); // increments the days of all seeds planted.
-                            day++; // increments the game day.
-                        }else if(tileSelect == 51){
                             System.out.println("Going back...");
                         }else if(tileSelect > 0 && tileSelect < 50){
                             System.out.println("Only tile 1 is available for the demo.");
                         }else{
                             System.out.println("Invalid tile/action.");
                         }
-                    }while(tileSelect != 51 && endConditions(tile.get(0)));
+                    }while(tileSelect != 50 && endConditions(tile.get(0)));
                     break;
                 case 2:
                     var farmerSelect = 0;
@@ -396,6 +401,7 @@ public class MyFarm {
         // Start game
             performGame();
             userInput.close();
+            System.out.println("GAME OVER!");
     }
 
 }
