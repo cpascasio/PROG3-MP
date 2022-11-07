@@ -194,9 +194,10 @@ public class Tile {
 
 
     /*
-	Purpose: Checks the seed if it's not empty, checks the seed if it has withered status requirements. Updates the status of seed.
-	Returns: void
-	Pre-condition: N/A
+	Purpose: Checks the seed if it's not empty, checks the seed if it has withered status requirements. Updates the withered status of seed. returns true if seed has withered, false if not.
+	Returns: boolean
+	@param tileIndex is an int containing the index of the tile currently being checked.
+	Pre-condition: the parameters contain valid values
     */
     public boolean WitherChecker(int tileIndex){
         if(seed != null){
@@ -255,6 +256,7 @@ public class Tile {
 	Pre-condition: N/A
     */
     public void TileStatus(){
+        System.out.println("");
         System.out.println("[TILE STATUS]");
         if(seed != null){
             System.out.println("Plant : " + seed.getName());
@@ -262,14 +264,11 @@ public class Tile {
                 System.out.println("Withered : Yes");
             }else{
                 System.out.println("Withered : No");
-            }
-            System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
-            System.out.println("Current Water : " + seed.getWater());
-            System.out.println("Water needed to harvest : " + seed.getWaterNeeded() + " (" + seed.getWaterLimit() + ")");
-            System.out.println("Current Fertilizer : " + seed.getFertilizer());
-            System.out.println("Fertilizer needed to harvest : " + seed.getFertilizerNeeded() + " (" + seed.getFertilizerLimit() + ")");
-            if(seed.isWithered() == false){
                 System.out.println("Days till harvest : " + (seed.getDaysNeeded() - seed.getDays()));
+                System.out.println("Current Water : " + seed.getWater());
+                System.out.println("Water needed to harvest : " + seed.getWaterNeeded() + " (" + seed.getWaterLimit() + ")");
+                System.out.println("Current Fertilizer : " + seed.getFertilizer());
+                System.out.println("Fertilizer needed to harvest : " + seed.getFertilizerNeeded() + " (" + seed.getFertilizerLimit() + ")");
             }
         }else{
             if(this.isPlowed){
