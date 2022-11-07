@@ -179,7 +179,7 @@ public class Tile {
         double FertilizerBonus = HarvestTotal * 0.2 * (seed.getFertilizer());
         double FinalHarvestPrice = HarvestTotal + WaterBonus + FertilizerBonus;
         System.out.println("[HARVESTED (" + seed.getName() + ")]");
-        System.out.println("Products sold : " + productsProduced + "(" + HarvestTotal + ")");
+        System.out.println("Products sold : " + productsProduced);
         System.out.println("Harvest Total : " + HarvestTotal);
         System.out.println("Water Bonus : " + formatter.format(WaterBonus));
         System.out.println("Fertilizer Bonus : " + formatter.format(FertilizerBonus));
@@ -198,14 +198,26 @@ public class Tile {
 	Returns: void
 	Pre-condition: N/A
     */
-    public void WitherChecker(){
+    public boolean WitherChecker(int tileIndex){
         if(seed != null){
             if(this.seed.getDays() > this.seed.getDaysNeeded()){
                 this.seed.setWithered(true);
-            }else if(this.seed.getDaysNeeded() == this.seed.getDays() && this.seed.getWater() < this.seed.getWaterNeeded() || this.seed.getFertilizer() < this.seed.getFertilizerNeeded()){
+                System.out.println("Plant has withered due to old age on [TILE " + tileIndex + "].");
+                return true;
+            }else if(this.seed.getDaysNeeded() == this.seed.getDays() && this.seed.getWater() < this.seed.getWaterNeeded()){
                 this.seed.setWithered(true);
+                System.out.println("Plant has withered due to lack of water on harvest day [TILE " + tileIndex + "].");
+                return true;
+            }else if(this.seed.getDaysNeeded() == this.seed.getDays() && this.seed.getFertilizer() < this.seed.getFertilizerNeeded()){
+                this.seed.setWithered(true);
+                System.out.println("Plant has withered due to lack of fertilizer on harvest day [TILE " + tileIndex + "].");
+                return true;
             }
+            return false;
+        }else{
+            return false;
         }
+
     }
 
     /*
