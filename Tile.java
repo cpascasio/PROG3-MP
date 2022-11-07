@@ -80,18 +80,23 @@ public class Tile {
 	Pre-condition: the parameters contain valid values
     */
     public void Water(Farmer farmer){
-        if(this.seed.isWithered()){
-            System.out.println("<Failed> Plant has withered.");
-        }else if(this.seed == null){
-            System.out.println("<Failed> No seed is planted.");
-        }else{
-            if(this.seed.getWater() < seed.getWaterLimit()){
-                this.seed.setWater(seed.getWater()+1);
+        if(this.seed != null){
+            if(this.seed.isWithered()){
+                System.out.println("<Failed> Plant has withered.");
+            }else if(this.seed == null){
+                System.out.println("<Failed> No seed is planted.");
+            }else{
+                if(this.seed.getWater() < seed.getWaterLimit()){
+                    this.seed.setWater(seed.getWater()+1);
+                }
+                System.out.println("<Success> Plant has been watered.");
+                System.out.println("<Update> Experience : " + farmer.getExperience() + " + (0.5)");
+                farmer.setExperience(farmer.getExperience()+0.5);
             }
-            System.out.println("<Success> Plant has been watered.");
-            System.out.println("<Update> Experience : " + farmer.getExperience() + " + (0.5)");
-            farmer.setExperience(farmer.getExperience()+0.5);
+        }else{
+            System.out.println("<Failed> No seed is planted.");
         }
+
     }
 
     /*
@@ -101,22 +106,27 @@ public class Tile {
 	Pre-condition: the parameters contain valid values
     */
     public void Fertilize(Farmer farmer){
-        if(this.seed.isWithered()){
-            System.out.println("<Failed> Plant has withered.");
-        }else if(this.seed != null && farmer.hasSufficientCoins(10)){
-            if(seed.getFertilizer() < seed.getFertilizerLimit()){
-                seed.setFertilizer(seed.getFertilizer()+1);
+        if(this.seed != null) {
+            if(this.seed.isWithered()){
+                System.out.println("<Failed> Plant has withered.");
+            }else if(farmer.hasSufficientCoins(10)){
+                if(seed.getFertilizer() < seed.getFertilizerLimit()){
+                    seed.setFertilizer(seed.getFertilizer()+1);
+                }
+                System.out.println("<Success> Plant fertilized.");
+                System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (10)");
+                System.out.println("<Update> Experience : " + farmer.getExperience() + " + (4)");
+                farmer.setExperience(farmer.getExperience()+4);
+                farmer.setObjectcoins(farmer.getObjectcoins()-10);
+            }else if(farmer.hasSufficientCoins(10) == false){
+                System.out.println("<Failed> insufficient money");
+            }else{
+                System.out.println("<Failed> no seed");
             }
-            System.out.println("<Success> Plant fertilized.");
-            System.out.println("<Update> ObjectCoins : " + farmer.getObjectcoins() + " - (10)");
-            System.out.println("<Update> Experience : " + farmer.getExperience() + " + (4)");
-            farmer.setExperience(farmer.getExperience()+4);
-            farmer.setObjectcoins(farmer.getObjectcoins()-10);
-        }else if(farmer.hasSufficientCoins(10) == false){
-            System.out.println("<Failed> insufficient money");
         }else{
-            System.out.println("<Failed> no seed");
+            System.out.println("<Failed> no seed planted.");
         }
+
     }
 
     /*
