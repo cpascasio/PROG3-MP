@@ -1,5 +1,6 @@
 /*
-Name: Christan James C. Pascasio && Lawrence Mark Dural
+Name: Christan James C. Pascasio & Lawrence Mark Dural
+Group: 3
 Section : S21
 References:
 https://stackoverflow.com/questions/12806278/double-decimal-formatting-in-java
